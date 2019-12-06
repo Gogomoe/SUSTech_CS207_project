@@ -47,10 +47,6 @@
 
 # 模块
 
-### RAM
-
-储存数据的模块，声明如下
-
 ### top_module
 
 是根模块，将会实例化各个 view 模块、control 模块
@@ -74,7 +70,7 @@ endmodule
 
 ```verilog
 module setting_view(
-	input clk,
+    input clk,
     input rst,
 
     input [2:0] player_count,
@@ -86,34 +82,12 @@ module setting_view(
     input [2:0] view,
     input [2:0] state,
 
-	output[7:0] seg_out,
-	output[7:0] seg_en,
-	output reg[23:0] led,
-	output reg buzzer
+    output[7:0] seg_out,
+    output[7:0] seg_en,
+    output reg[23:0] led,
+    output reg buzzer
 );
 
-
-endmodule
-```
-
-### setting_view
-
-```verilog
-module setting_view(
-	input pow,
-	input clk,
-	input[22:0] sw,
-    input[4:0] bt,
-	output reg[7:0] seg_out,
-	output reg[7:0] seg_en,
-	output reg[23:0] led,
-	output reg buzzer,
-	output reg write, 
-	output reg [3:0] RAddr, WAddr,
-	input [15:0] ram,
-	output reg [15:0] data,
-	output reg exit
-);
 
 endmodule
 ```
@@ -122,7 +96,7 @@ endmodule
 
 ```verilog
 module setting_control(
-	input clk,
+    input clk,
     input rst,
     input[23:0] sw,
     input[4:0] bt,
