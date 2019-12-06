@@ -59,6 +59,8 @@ input clk, wirte;
 input [AWIDTH - 1 : 0] RAddr, WAddr;
 input [DWIDTH - 1 : 0] data;
 output reg [DWIDTH - 1 : 0] q;
+
+endmodule
 ```
 
 ```
@@ -78,22 +80,6 @@ output reg [DWIDTH - 1 : 0] q;
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
 ```
 
-### input_process
-
-对输入进行预处理，例如拨开关时将状态维持 50ms，避免其反复跳变。
-
-将键盘的 xy 转换成对应的 16 个键。其中的 0~D 直接对应输出的 button[13:0]，\* 对应 button[14]， # 对应 button[15]
-
-```verilog
-module input_process(
-	input clk,
-	input[23:0] sw,
-	input[7:0] bt,
-	output reg[23:0] switch,
-	output reg[15:0] button
-);
-```
-
 ### top_module
 
 是根模块，将会实例化各个 view 模块、RAM、input_process 模块
@@ -101,29 +87,34 @@ module input_process(
 ```verilog
 module top_module(
 	input clk,
+    input rst,
 	input[23:0] sw,
-	input[7:0] bt,
+    input[4:0] bt,
 	output reg[7:0] seg_out,
 	output reg[7:0] seg_en,
 	output reg[23:0] led,
 	output reg buzzer
 );
+
+endmodule
 ```
 
 ### home_view
 
 ```verilog
 module home_view(
-	input pow,
 	input clk,
-	input[22:0] sw,
-	input[15:0] bt,
+    input rst,
+	input[23:0] sw,
+    input[4:0] bt,
 	output reg[7:0] seg_out,
 	output reg[7:0] seg_en,
 	output reg[23:0] led,
 	output reg buzzer,
 	output reg[1:0] next_view
 );
+
+endmodule
 ```
 
 ### setting_view
@@ -133,7 +124,7 @@ module setting_view(
 	input pow,
 	input clk,
 	input[22:0] sw,
-	input[15:0] bt,
+    input[4:0] bt,
 	output reg[7:0] seg_out,
 	output reg[7:0] seg_en,
 	output reg[23:0] led,
@@ -144,6 +135,8 @@ module setting_view(
 	output reg [15:0] data,
 	output reg exit
 );
+
+endmodule
 ```
 
 ### competition_view
@@ -153,7 +146,7 @@ module competition_view(
 	input pow,
 	input clk,
 	input[22:0] sw,
-	input[15:0] bt,
+    input[4:0] bt,
 	output reg[7:0] seg_out,
 	output reg[7:0] seg_en,
 	output reg[23:0] led,
@@ -164,4 +157,6 @@ module competition_view(
 	output reg [15:0] data,
 	output reg exit
 );
+
+endmodule
 ```
