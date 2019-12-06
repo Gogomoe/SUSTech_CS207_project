@@ -51,38 +51,9 @@
 
 储存数据的模块，声明如下
 
-```verilog
-module RAM(clk, write, RAddr, WAddr, data, q);
-parameter DWIDTH = 16, AWIDTH = 4;
-
-input clk, wirte;
-input [AWIDTH - 1 : 0] RAddr, WAddr;
-input [DWIDTH - 1 : 0] data;
-output reg [DWIDTH - 1 : 0] q;
-
-endmodule
-```
-
-```
-      f   e   d   c   b   a   9   8   7   6   5   4   3   2   1   0  
-    +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
- 0  |                          Player Count                         |
-    +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
- 1  |                          Question Count                       |
-    +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
- 2  |                          Answer Time                          |
-    +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
- 3  |                          Win Score                            |
-    +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
- 4  |                          Success Score                        |
-    +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
- 5  |                          Fail Score                           |
-    +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-```
-
 ### top_module
 
-是根模块，将会实例化各个 view 模块、RAM、input_process 模块
+是根模块，将会实例化各个 view 模块、control 模块
 
 ```verilog
 module top_module(
@@ -99,20 +70,28 @@ module top_module(
 endmodule
 ```
 
-### home_view
+### setting_view
 
 ```verilog
-module home_view(
+module setting_view(
 	input clk,
     input rst,
-	input[23:0] sw,
-    input[4:0] bt,
-	output reg[7:0] seg_out,
-	output reg[7:0] seg_en,
+
+    input [2:0] player_count,
+    input [3:0] question_count,
+    input [6:0] answer_time,
+    input [6:0] win_socre,
+    input [3:0] success_score,
+    input [3:0] fail_score,
+    input [2:0] view,
+    input [2:0] state,
+
+	output[7:0] seg_out,
+	output[7:0] seg_en,
 	output reg[23:0] led,
-	output reg buzzer,
-	output reg[1:0] next_view
+	output reg buzzer
 );
+
 
 endmodule
 ```
@@ -139,23 +118,23 @@ module setting_view(
 endmodule
 ```
 
-### competition_view
+### setting_control
 
 ```verilog
-module competition_view(
-	input pow,
+module setting_control(
 	input clk,
-	input[22:0] sw,
+    input rst,
+    input[23:0] sw,
     input[4:0] bt,
-	output reg[7:0] seg_out,
-	output reg[7:0] seg_en,
-	output reg[23:0] led,
-	output reg buzzer,
-	output reg write, 
-	output reg [3:0] RAddr, WAddr,
-	input [15:0] ram,
-	output reg [15:0] data,
-	output reg exit
+
+    output reg[2:0] player_count,
+    output reg[3:0] question_count,
+    output reg[6:0] answer_time,
+    output reg[6:0] win_socre,
+    output reg[3:0] success_score,
+    output reg[3:0] fail_score,
+    output reg[2:0] view,
+    output reg[2:0] state
 );
 
 endmodule
