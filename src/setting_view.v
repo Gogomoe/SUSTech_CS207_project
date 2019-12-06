@@ -1,6 +1,8 @@
 module setting_view(
 	input clk,
     input rst,
+    input [2:0] view,
+    input [2:0] state,
 
     input [2:0] player_count,
     input [3:0] question_count,
@@ -8,8 +10,6 @@ module setting_view(
     input [6:0] win_socre,
     input [3:0] success_score,
     input [3:0] fail_score,
-    input [2:0] view,
-    input [2:0] state,
 
 	output[7:0] seg_out,
 	output[7:0] seg_en,
@@ -38,7 +38,15 @@ bcd_seg bcd_7(bcd7_i, bcd7_o);
 
 parameter NOSHOW = 8'b11111111;
 
-always @(view, state, player_count) begin
+always @(
+    view, state,
+    player_count,
+    question_count,
+    answer_time,
+    win_socre,
+    success_score,
+    fail_score) begin
+
     if(view == 0) begin
 
         bcd0_i = 5;
@@ -62,6 +70,34 @@ always @(view, state, player_count) begin
                 bcd7_i = player_count;
                 i7 = bcd7_o;
             end
+            2: begin
+                i6 = NOSHOW;
+                bcd7_i = question_count;
+                i7 = bcd7_o;
+            end
+            3: begin
+                bcd6_i = answer_time / 10;
+                i6 = bcd6_o;
+                bcd7_i = player_count % 10;
+                i7 = bcd7_o;
+            end
+            4: begin
+                bcd6_i = win_socre / 10;
+                i6 = bcd6_o;
+                bcd7_i = win_socre % 10;
+                i7 = bcd7_o;
+            end
+            5: begin
+                i6 = NOSHOW;
+                bcd7_i = success_score;
+                i7 = bcd7_o;
+            end
+            6: begin
+                i6 = NOSHOW;
+                bcd7_i = fail_score;
+                i7 = bcd7_o;
+            end
+
         endcase
 
     end
