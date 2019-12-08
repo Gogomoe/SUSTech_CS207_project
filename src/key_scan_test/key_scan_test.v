@@ -11,6 +11,11 @@ key_scanner key_scan_inst(clk, rst, row, col, keys);
 wire key_edge;
 button_edge key_edge_inst(clk, keys[1], key_edge);
 
-assign led = {key_edge, 7'b0, keys};
+reg edge_led;
+assign led = {edge_led, 7'b0, keys};
+
+always @(posedge clk) begin
+    if(key_edge) edge_led = ~edge_led;
+end
 
 endmodule
