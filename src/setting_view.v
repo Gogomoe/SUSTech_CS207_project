@@ -78,7 +78,7 @@ always @(
             3: begin
                 bcd6_i = answer_time / 10;
                 i6 = bcd6_o;
-                bcd7_i = player_count % 10;
+                bcd7_i = answer_time % 10;
                 i7 = bcd7_o;
             end
             4: begin
@@ -97,9 +97,22 @@ always @(
                 bcd7_i = fail_score;
                 i7 = bcd7_o;
             end
-
+            default: begin
+                bcd6_i = 0;
+                bcd7_i = 0;
+                i6 = NOSHOW;
+                i7 = NOSHOW;
+            end
         endcase
-
+    end else begin
+        i0 = NOSHOW;
+        i1 = NOSHOW;
+        i2 = NOSHOW;
+        i3 = NOSHOW;
+        i4 = NOSHOW;
+        i5 = NOSHOW;
+        i6 = NOSHOW;
+        i7 = NOSHOW;
     end
 end
 
