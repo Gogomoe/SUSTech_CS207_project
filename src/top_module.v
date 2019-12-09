@@ -87,6 +87,8 @@ setting_view sv_inst(
     sv_buzzer
 );
 
+wire comprtition_rst;
+
 wire[3:0] play_count;
 wire[2:0]  cc_state;
 wire[17:0] time_remain;
@@ -102,7 +104,7 @@ wire[2:0] select_player;
 wire[2:0] winner;
 
 competition_control cc_inst(
-    clk, rst,
+    clk, comprtition_rst,
     sw_press,
     sw_edge,
     bt_press,
@@ -163,27 +165,60 @@ competition_view cv_inst(
     cv_buzzer
 );
 
+wire[7:0] wv_seg_out;
+wire[7:0] wv_seg_en;
+wire[23:0] wv_led;
+wire wv_buzzer;
+
+win_view win_inst(
+    clk, rst,
+    o_view,
+
+    player_count,
+    player1_score,
+    player2_score,
+    player3_score,
+    player4_score,
+    winner,
+
+    wv_seg_out,
+    wv_seg_en,
+    wv_led,
+    wv_buzzer
+);
+
 always @(view) begin
-    if(view == 0) begin
-        seg_out = sv_seg_out;
-        seg_en = sv_seg_en;
-        led = sv_led;
-        buzzer = sv_buzzer;
-    end else if(view == 1) begin
-        seg_out = cv_seg_out;
-        seg_en = cv_seg_en;
-        led = cv_led;
-        buzzer = cv_buzzer;
-    end
+    case(view)
+        0: begin
+            seg_out = sv_seg_out;
+            seg_en = sv_seg_en;
+            led = sv_led;
+            buzzer = sv_buzzer;
+        end
+        1: begin
+            seg_out = cv_seg_out;
+            seg_en = cv_seg_en;
+            led = cv_led;
+            buzzer = cv_buzzer;
+        end
+        2: begin
+            seg_out = wv_seg_out;
+            seg_en = wv_seg_en;
+            led = wv_led;
+            buzzer = wv_buzzer;
+        end
+    endcase
 end
 
-always @(rst, sw) begin
-    if(rst) begin
-        view = 0;
-    end else begin
-        if(view == 0 && sw[23]) begin
-            view = 1;
-        end
+assign comprtition_rst = rst || view == 0;
+
+always @(posedge clk) begin
+    if(rst || (view == 1 && key_edge[15]) || (view == 2 && key_edge[15])) begin
+        view <= 0;
+    end else if(view == 0 && key_edge[15]) begin
+        view <= 1;
+    end else if(view == 1 && winner != 0) begin
+        view <= 2;
     end
 end
 
