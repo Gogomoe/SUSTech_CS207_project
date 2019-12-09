@@ -187,6 +187,29 @@ win_view win_inst(
     wv_buzzer
 );
 
+wire[7:0] ipv_seg_out;
+wire[7:0] ipv_seg_en;
+wire[23:0] ipv_led;
+wire ipv_buzzer;
+
+inspect_player_view ipv_inst(
+    clk, rst,
+    o_view,
+
+    bt_edge,
+
+    player_count,
+    player1_score,
+    player2_score,
+    player3_score,
+    player4_score,
+
+    ipv_seg_out,
+    ipv_seg_en,
+    ipv_led,
+    ipv_buzzer
+);
+
 always @(view) begin
     case(view)
         0: begin
@@ -207,6 +230,12 @@ always @(view) begin
             led = wv_led;
             buzzer = wv_buzzer;
         end
+        3: begin
+            seg_out = ipv_seg_out;
+            seg_en = ipv_seg_en;
+            led = ipv_led;
+            buzzer = ipv_buzzer;
+        end
     endcase
 end
 
@@ -215,10 +244,12 @@ assign comprtition_rst = rst || view == 0;
 always @(posedge clk) begin
     if(rst || (view == 1 && key_edge[15]) || (view == 2 && key_edge[15])) begin
         view <= 0;
-    end else if(view == 0 && key_edge[15]) begin
+    end else if((view == 0 && key_edge[15]) || (view == 3 && key_edge[12])) begin
         view <= 1;
     end else if(view == 1 && winner != 0) begin
         view <= 2;
+    end else if(view == 1 && key_edge[12]) begin
+        view <= 3;
     end
 end
 
