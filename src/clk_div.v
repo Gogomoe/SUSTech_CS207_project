@@ -5,7 +5,7 @@ module clk_div(
 );
 
 parameter period = 1000;
-reg[9:0] cnt;
+reg[19:0] cnt;
 
 always @(posedge clk) begin
     if(rst) begin

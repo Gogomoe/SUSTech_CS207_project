@@ -88,6 +88,18 @@ setting_view sv_inst(
 );
 
 wire[3:0] play_count;
+wire[2:0]  cc_state;
+wire[17:0] time_remain;
+wire[6:0]  player1_score;
+wire[6:0]  player2_score;
+wire[6:0]  player3_score;
+wire[6:0]  player4_score;
+wire[17:0] player1_list;
+wire[17:0] player2_list;
+wire[17:0] player3_list;
+wire[17:0] player4_list;
+wire[2:0] select_player;
+wire[2:0] winner;
 
 competition_control cc_inst(
     clk, rst,
@@ -107,7 +119,19 @@ competition_control cc_inst(
     success_score,
     fail_score,
 
-    play_count
+    play_count,
+    cc_state,
+    time_remain,
+    player1_score,
+    player2_score,
+    player3_score,
+    player4_score,
+    player1_list,
+    player2_list,
+    player3_list,
+    player4_list,
+    select_player,
+    winner
 );
 
 wire[7:0] cv_seg_out;
@@ -118,7 +142,20 @@ wire cv_buzzer;
 competition_view cv_inst(
     clk, rst,
     o_view,
+
     play_count,
+    cc_state,
+    time_remain,
+    player1_score,
+    player2_score,
+    player3_score,
+    player4_score,
+    player1_list,
+    player2_list,
+    player3_list,
+    player4_list,
+    select_player,
+    winner,
 
     cv_seg_out,
     cv_seg_en,
