@@ -3,10 +3,33 @@ module top_module(
     input rst,
 	input[23:0] sw,
     input[4:0] bt,
+    input[3:0] row,
+    output[3:0] col,
 	output reg[7:0] seg_out,
 	output reg[7:0] seg_en,
 	output reg[23:0] led,
 	output reg buzzer
+);
+
+wire[23:0] sw_press;
+wire[23:0] sw_edge;
+wire[4:0] bt_press;
+wire[4:0] bt_edge;
+wire[15:0] key_press;
+wire[15:0] key_edge;
+
+input_process input_process_inst(
+    clk, rst,
+    sw,
+    bt,
+    row,
+    col,
+    sw_press,
+    sw_edge,
+    bt_press,
+    bt_edge,
+    key_press,
+    key_edge
 );
 
 reg[2:0] view;
@@ -23,8 +46,13 @@ wire[2:0] sc_state;
 
 setting_control sc_inst(
     clk, rst,
-    sw,
-    bt,
+    sw_press,
+    sw_edge,
+    bt_press,
+    bt_edge,
+    key_press,
+    key_edge,
+
     o_view,
 
     player_count,
@@ -59,15 +87,27 @@ setting_view sv_inst(
     sv_buzzer
 );
 
-wire[2:0] cc_state;
+wire[3:0] play_count;
 
 competition_control cc_inst(
     clk, rst,
-    sw,
-    bt,
+    sw_press,
+    sw_edge,
+    bt_press,
+    bt_edge,
+    key_press,
+    key_edge,
+
     o_view,
 
-    cc_state
+    player_count,
+    question_count,
+    answer_time,
+    win_socre,
+    success_score,
+    fail_score,
+
+    play_count
 );
 
 wire[7:0] cv_seg_out;
@@ -78,7 +118,7 @@ wire cv_buzzer;
 competition_view cv_inst(
     clk, rst,
     o_view,
-    cc_state,
+    play_count,
 
     cv_seg_out,
     cv_seg_en,

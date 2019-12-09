@@ -1,9 +1,14 @@
 module setting_control(
 	input clk,
     input rst,
-    input[23:0] sw,
-    input[4:0] bt,
-    input view,
+    input[23:0] sw_press,
+    input[23:0] sw_edge,
+    input[4:0] bt_press,
+    input[4:0] bt_edge,
+    input[15:0] key_press,
+    input[15:0] key_edge,
+
+    input[2:0] view,
 
     output reg[2:0] player_count,
     output reg[3:0] question_count,
@@ -14,14 +19,11 @@ module setting_control(
     output reg[2:0] state
 );
 
-//wire rst_press;
-//button_jitter rst_jitter(clk, rst, rst_press);
-
 wire up_press, down_press, left_press, right_press;
-button_edge up_jitter(clk, bt[2], up_press);
-button_edge down_jitter(clk, bt[4], down_press);
-button_edge left_jitter(clk, bt[1], left_press);
-button_edge right_jitter(clk, bt[0], right_press);
+assign up_press = bt_edge[2];
+assign down_press = bt_edge[4];
+assign left_press = bt_edge[1];
+assign right_press = bt_edge[0];
 
 always @(posedge clk) begin
     if(rst)
