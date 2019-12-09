@@ -10,7 +10,8 @@ module counter(
 reg[16:0] count;
 reg[15:0] ms;
 
-assign clk_counter = ms == period ? 1'b1 : 1'b0; 
+assign clk_counter = ms == period ? 1'b1 : 1'b0;
+
 
 always @(posedge clk, posedge rst)
 begin
