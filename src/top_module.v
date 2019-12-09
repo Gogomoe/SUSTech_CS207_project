@@ -210,6 +210,29 @@ inspect_player_view ipv_inst(
     ipv_buzzer
 );
 
+wire[7:0] iqv_seg_out;
+wire[7:0] iqv_seg_en;
+wire[23:0] iqv_led;
+wire iqv_buzzer;
+
+inspect_question_view iqv_inst(
+    clk, rst,
+    o_view,
+
+    bt_edge,
+
+    play_count,
+    player1_list,
+    player2_list,
+    player3_list,
+    player4_list,
+
+    iqv_seg_out,
+    iqv_seg_en,
+    iqv_led,
+    iqv_buzzer
+);
+
 always @(view) begin
     case(view)
         0: begin
@@ -236,6 +259,12 @@ always @(view) begin
             led = ipv_led;
             buzzer = ipv_buzzer;
         end
+        4: begin
+            seg_out = iqv_seg_out;
+            seg_en = iqv_seg_en;
+            led = iqv_led;
+            buzzer = iqv_buzzer;
+        end
     endcase
 end
 
@@ -244,12 +273,14 @@ assign comprtition_rst = rst || view == 0;
 always @(posedge clk) begin
     if(rst || (view == 1 && key_edge[15]) || (view == 2 && key_edge[15])) begin
         view <= 0;
-    end else if((view == 0 && key_edge[15]) || (view == 3 && key_edge[12])) begin
+    end else if((view == 0 && key_edge[15]) || (view == 3 && key_edge[12]) || (view == 4 && key_edge[13])) begin
         view <= 1;
     end else if(view == 1 && winner != 0) begin
         view <= 2;
     end else if(view == 1 && key_edge[12]) begin
         view <= 3;
+    end else if(view == 1 && key_edge[13]) begin
+        view <= 4;
     end
 end
 
