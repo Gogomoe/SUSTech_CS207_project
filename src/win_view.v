@@ -76,29 +76,10 @@ end
 reg[7:0] i0, i1, i2, i3, i4, i5, i6, i7;
 seg_tube seg_inst(clk, i0, i1, i2, i3, i4, i5, i6, i7, seg_out, seg_en);
 
-reg[3:0] bcd0_i;
-wire[7:0] bcd0_o;
-bcd_seg bcd_0(bcd0_i, bcd0_o);
-
-reg[3:0] bcd1_i;
-wire[7:0] bcd1_o;
-bcd_seg bcd_1(bcd1_i, bcd1_o);
-
-reg[3:0] bcd2_i;
-wire[7:0] bcd2_o;
-bcd_seg bcd_2(bcd2_i, bcd2_o);
-
-reg[3:0] bcd3_i;
-wire[7:0] bcd3_o;
-bcd_seg bcd_3(bcd3_i, bcd3_o);
 
 reg[3:0] bcd4_i;
 wire[7:0] bcd4_o;
 bcd_seg bcd_4(bcd4_i, bcd4_o);
-
-reg[3:0] bcd5_i;
-wire[7:0] bcd5_o;
-bcd_seg bcd_5(bcd5_i, bcd5_o);
 
 reg[3:0] bcd6_i;
 wire[7:0] bcd6_o;
@@ -110,32 +91,46 @@ bcd_seg bcd_7(bcd7_i, bcd7_o);
 
 parameter NOSHOW = 8'b11111111;
 
-always @(*) begin
+always @(view, state, pos) begin
     if(view == 2) begin
         if(state == 0) begin
-            {i0, i1, i2, i3, i4, i5, i6, i7} <= {8{NOSHOW}};
+            {i0, i1, i2, i3, i4, i5, i6, i7} = {8{NOSHOW}};
         end
         else if(state >= 1 && state <= player_count) begin
-            bcd4_i <= state;
-            bcd6_i <= show_score / 10;
-            bcd7_i <= show_score % 10;
+            bcd4_i = state;
+            bcd6_i = show_score / 10;
+            bcd7_i = show_score % 10;
             case(pos)
-                0: {i0, i1, i2, i3, i4, i5, i6, i7} <= {bcd4_o, NOSHOW, bcd6_o, bcd7_o, {4{NOSHOW}} };
-                1: {i0, i1, i2, i3, i4, i5, i6, i7} <= {NOSHOW, bcd4_o, NOSHOW, bcd6_o, bcd7_o, {3{NOSHOW}} };
-                2: {i0, i1, i2, i3, i4, i5, i6, i7} <= {{2{NOSHOW}}, bcd4_o, NOSHOW, bcd6_o, bcd7_o, {2{NOSHOW}} };
-                3: {i0, i1, i2, i3, i4, i5, i6, i7} <= {{3{NOSHOW}}, bcd4_o, NOSHOW, bcd6_o, bcd7_o, NOSHOW };
-                4: {i0, i1, i2, i3, i4, i5, i6, i7} <= {{4{NOSHOW}}, bcd4_o, NOSHOW, bcd6_o, bcd7_o};
-                5: {i0, i1, i2, i3, i4, i5, i6, i7} <= {8{NOSHOW}};
+                0: begin
+                    {i1, i4, i5, i6, i7} = {5{NOSHOW}};
+                    {i0, i2, i3} = {bcd4_o, bcd6_o, bcd7_o};
+                end
+                1: begin
+                    {i0, i2, i5, i6, i7} = {5{NOSHOW}};
+                    {i1, i3, i4} = {bcd4_o, bcd6_o, bcd7_o};
+                end
+                2: begin
+                    {i0, i1, i3, i6, i7} = {5{NOSHOW}};
+                    {i2, i4, i5} = {bcd4_o, bcd6_o, bcd7_o};
+                end
+                3: begin
+                    {i0, i1, i2, i4, i7} = {5{NOSHOW}};
+                    {i3, i5, i6} = {bcd4_o, bcd6_o, bcd7_o};
+                end
+                4: begin
+                    {i0, i1, i2, i3, i5} = {5{NOSHOW}};
+                    {i4, i6, i7} = {bcd4_o, bcd6_o, bcd7_o};
+                end
             endcase
         end
         else begin
-            {i0, i1, i2, i3, i5} <= {5{NOSHOW}};
-            bcd4_i <= winner;
-            i4 <= bcd4_o;
-            bcd6_i <= show_score / 10;
-            i6 <= bcd6_o;
-            bcd7_i <= show_score % 10;
-            i7 <= bcd7_o;
+            {i0, i1, i2, i3, i5} = {5{NOSHOW}};
+            bcd4_i = winner;
+            i4 = bcd4_o;
+            bcd6_i = show_score / 10;
+            i6 = bcd6_o;
+            bcd7_i = show_score % 10;
+            i7 = bcd7_o;
         end
     end
 end
