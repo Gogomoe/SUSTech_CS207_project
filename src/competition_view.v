@@ -2,7 +2,8 @@ module competition_view(
 	input clk,
     input rst,
     input [2:0] view,
-    input [3:0] state,
+
+    input [3:0] play_count,
 
 	output[7:0] seg_out,
 	output[7:0] seg_en,
@@ -20,14 +21,14 @@ bcd_seg bcd_1(bcd1_i, bcd1_o);
 parameter NOSHOW = 8'b11111111;
 
 always @(
-    view, state
+    view, play_count
     ) begin
 
     if(view == 1) begin
 
         i0 = 8'b11000110;
 
-        bcd1_i = state;
+        bcd1_i = play_count;
         i1 = bcd1_o;
 
         i2 = NOSHOW;
