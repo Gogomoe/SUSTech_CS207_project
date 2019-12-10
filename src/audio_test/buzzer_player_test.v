@@ -59,24 +59,30 @@ parameter _5AP = 12'd932;
 parameter _5B  = 12'd988;
 
 reg[11:0] hz;
+reg[11:0] next_hz;
 
 buzzer_player player(clk, hz, buzzer);
 
 always @(sw_press) begin
     case(sw_press)
-        0: hz = 0;
-        1: hz = _4C;
-        2: hz = _4D;
-        4: hz = _4E;
-        8: hz = _4F;
-        16: hz = _4G;
-        32: hz = _4A;
-        64: hz = _4B;
-        128: hz = _5C;
-        256: hz = _5D;
-        512: hz = _5E;
-        1024: hz = _5F;
+        0: next_hz = 0;
+        1: next_hz = _4C;
+        2: next_hz = _4D;
+        4: next_hz = _4E;
+        8: next_hz = _4F;
+        16: next_hz = _4G;
+        32: next_hz = _4A;
+        64: next_hz = _4B;
+        128: next_hz = _5C;
+        256: next_hz = _5D;
+        512: next_hz = _5E;
+        1024: next_hz = _5F;
+        default: next_hz = hz;
     endcase
+end
+
+always @(posedge clk) begin
+    hz <= next_hz;
 end
 
 endmodule
