@@ -21,7 +21,7 @@ wire left_press, right_press;
 assign left_press = bt_edge[1];
 assign right_press = bt_edge[0];
 
-reg[2:0] state;
+reg[3:0] state;
 always @(posedge clk) begin
     if(rst || view != 4) begin
         state <= 0;
