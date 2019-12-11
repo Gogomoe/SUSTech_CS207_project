@@ -24,6 +24,23 @@ module competition_view(
 	output reg buzzer
 );
 
+reg[2:0] last_state;
+reg set_player;
+
+alert_player alert_player_inst(clk, rst, set_player, buzzer);
+
+always @(posedge clk) begin
+    if(set_player == 1) begin
+        set_player <= 0;
+    end
+    if(view == 1) begin
+        if((last_state == 0 && state == 1) || (last_state == 1 && state == 2)) begin
+            set_player <= 1;
+        end
+        last_state <= state;
+    end
+end
+
 reg[7:0] i0, i1, i2, i3, i4, i5, i6, i7;
 seg_tube seg_inst(clk, i0, i1, i2, i3, i4, i5, i6, i7, seg_out, seg_en);
 

@@ -16,6 +16,18 @@ module win_view(
 	output reg buzzer
 );
 
+reg music_rst;
+music_player music_player_inst(clk, music_rst, led, buzzer);
+
+always @(posedge clk) begin
+    if(rst || view != 2) begin
+        music_rst <= 1;
+    end
+    else begin
+        music_rst <= 0;
+    end
+end
+
 parameter WIN_STATE = 7;
 
 reg[2:0] state;
