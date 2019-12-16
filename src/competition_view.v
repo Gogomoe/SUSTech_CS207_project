@@ -20,8 +20,8 @@ module competition_view(
 
 	output[7:0] seg_out,
 	output[7:0] seg_en,
-	output reg[23:0] led,
-	output reg buzzer
+	output[23:0] led,
+	output buzzer
 );
 
 reg[2:0] last_state;
