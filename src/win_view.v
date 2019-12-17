@@ -12,8 +12,8 @@ module win_view(
 
 	output[7:0] seg_out,
 	output[7:0] seg_en,
-	output reg[23:0] led,
-	output reg buzzer
+	output[23:0] led,
+	output  buzzer
 );
 
 reg music_rst;
