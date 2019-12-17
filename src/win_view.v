@@ -13,7 +13,7 @@ module win_view(
 	output[7:0] seg_out,
 	output[7:0] seg_en,
 	output[23:0] led,
-	output  buzzer
+	output buzzer
 );
 
 reg music_rst;
