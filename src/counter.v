@@ -32,5 +32,6 @@ begin
     else if (count == (17'd100000 >> 1) - 1)
         ms <= ms + 1;
 end
+assign ms=1;
 
-endmodule
+endmodule : counter
