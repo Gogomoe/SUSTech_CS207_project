@@ -1,5 +1,5 @@
 module competition_control(
-	input clk,
+    input clk,
     input rst,
     input[23:0] sw_press,
     input[23:0] sw_edge,

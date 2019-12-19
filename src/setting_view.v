@@ -1,5 +1,5 @@
 module setting_view(
-	input clk,
+    input clk,
     input rst,
     input [2:0] view,
     input [2:0] state,
@@ -11,10 +11,10 @@ module setting_view(
     input [3:0] success_score,
     input [3:0] fail_score,
 
-	output[7:0] seg_out,
-	output[7:0] seg_en,
-	output reg[23:0] led,
-	output reg buzzer
+    output[7:0] seg_out,
+    output[7:0] seg_en,
+    output reg[23:0] led,
+    output reg buzzer
 );
 
 reg[7:0] i0, i1, i2, i3, i4, i5, i6, i7;

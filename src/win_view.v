@@ -1,5 +1,5 @@
 module win_view(
-	input clk,
+    input clk,
     input rst,
     input [2:0] view,
 
@@ -10,10 +10,10 @@ module win_view(
     input[6:0] player4_score,
     input[2:0] winner,
 
-	output[7:0] seg_out,
-	output[7:0] seg_en,
-	output[23:0] led,
-	output buzzer
+    output[7:0] seg_out,
+    output[7:0] seg_en,
+    output[23:0] led,
+    output buzzer
 );
 
 reg music_rst;

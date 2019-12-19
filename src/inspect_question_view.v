@@ -1,5 +1,5 @@
 module inspect_question_view(
-	input clk,
+    input clk,
     input rst,
     input [2:0] view,
 
@@ -11,10 +11,10 @@ module inspect_question_view(
     input[17:0] player3_list,
     input[17:0] player4_list,
 
-	output[7:0] seg_out,
-	output[7:0] seg_en,
-	output reg[23:0] led,
-	output reg buzzer
+    output[7:0] seg_out,
+    output[7:0] seg_en,
+    output reg[23:0] led,
+    output reg buzzer
 );
 
 wire left_press, right_press;

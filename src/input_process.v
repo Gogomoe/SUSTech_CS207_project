@@ -1,6 +1,6 @@
 module input_process(
     input clk, rst,
-	input[23:0] sw,
+    input[23:0] sw,
     input[4:0] bt,
     input[3:0] row,
     output[3:0] col,
