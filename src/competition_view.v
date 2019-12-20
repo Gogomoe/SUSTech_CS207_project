@@ -1,5 +1,5 @@
 module competition_view(
-	input clk,
+    input clk,
     input rst,
     input [2:0] view,
 
@@ -18,10 +18,10 @@ module competition_view(
     input[2:0]  select_player,
     input[2:0]  winner,
 
-	output[7:0] seg_out,
-	output[7:0] seg_en,
-	output[23:0] led,
-	output buzzer
+    output[7:0] seg_out,
+    output[7:0] seg_en,
+    output[23:0] led,
+    output buzzer
 );
 
 reg[2:0] last_state;

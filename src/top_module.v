@@ -1,14 +1,14 @@
 module top_module(
-	input clk,
+    input clk,
     input rst,
-	input[23:0] sw,
+    input[23:0] sw,
     input[4:0] bt,
     input[3:0] row,
     output[3:0] col,
-	output reg[7:0] seg_out,
-	output reg[7:0] seg_en,
-	output reg[23:0] led,
-	output reg buzzer
+    output reg[7:0] seg_out,
+    output reg[7:0] seg_en,
+    output reg[23:0] led,
+    output reg buzzer
 );
 
 wire[23:0] sw_press;
