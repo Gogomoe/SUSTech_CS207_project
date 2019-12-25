@@ -8,19 +8,19 @@
 [task2.pdf](task2.pdf)
 
 ## b) 任务划分
-  
+
    江川(11811712)：总体设计整合，设置模块，抢答模块，结果显示模块，输入处理模块，单独的测试模块
-   
+
    张湲(11811702)：审视玩家分数模块，音乐播放模块，Report，仿真文件
-   
+
    鲁瑞敏(11810208)：审视题目给分模块，音乐播放模块，Report，仿真文件
 
 ## c) 执行记录
-    
+
    2019.12.06：确定选题、进行分工
-   
+
    2019.12.13：模块整合、检验成果
-   
+
    2019.12.20：完成报告
 
 # 设计
@@ -90,6 +90,24 @@
 ## b) 系统结构图
 
 ![](photos/结构图.png)
+
+
+```flow
+input=>start: Input
+output=>end: Output
+input_process=>operation: Input Process
+multiplexer=>parallel: Multiplexer
+setting=>operation: Setting View
+competition=>operation: Competition View
+win=>operation: Win View
+
+input->input_process->multiplexer
+multiplexer(path1,left)->setting->output
+multiplexer(path2,bottom)->competition->output
+multiplexer(path3,right)->win->output
+```
+
+![结构图](photos/structure.png)
 
 ## c) 子模块
 
